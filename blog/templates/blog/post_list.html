@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="text-center">BLOG APP</h1>
+
+
+<div class="container">
+    <div class="row row-cols-3">
+
+    {% for post in posts %}
+        <div class="col-4 mt-3 mb-2">
+            <div class="card">
+                <img src="{{ post.image }}" class="card-img-top" alt="{{ post.title }}">
+                <div class="card-body">
+                  <h5 class="card-title"> <a href="{% url 'details' post.id %}"> {{ post.title }}   </a> </h5>
+                  <p class="card-text text-line">{{ post.content }}   </p>
+                  <small class="text-muted">
+                    <i class="bi bi-star"></i> {{ post.likecount }} 
+                    <i class="bi bi-eye-fill"></i> {{ post.viewcount }}  
+                    <i class="bi bi-chat"></i> {{ post.commentcount }}  
+                  </small>
+                </div>
+                <div class="card-footer">
+                  <small class="text-muted"> Posted {{ post.publish_date | timesince }} ago </small>
+                </div>
+            </div>
+        </div> 
+    {% endfor %}  
+      
+    </div>
+</div>
+
+{% endblock content %}

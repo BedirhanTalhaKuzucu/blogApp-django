@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="text-danger">Post Details</h1>
+
+<div class="container ">
+   
+    <div class="card mb-5 mx-auto " style="width: 40rem;">
+        <div class="card-header">
+            <img class="card-img-top" src="{{ postDetails.image }}" alt="Card image cap">
+            <hr>
+            <h3 class="card-title"> {{ postDetails.title }} </h3>
+        </div>
+        <div class="card-body">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <i class="bi bi-chat mx-3"></i> {{ listComment.count }}
+                    <i class="bi bi-star mx-3"></i> {{ likeCount.count }}
+                    <i class="bi bi-eye-fill mx-3"></i> {{ viewCount.count }}
+                </li>
+                <small class="text-muted"> Posted {{ postDetails.publish_date | timesince }} ago </small>
+            </ul> 
+            <hr>
+            <p class="card-text"> {{ postDetails.content }} </p>
+            <hr style="border: 1px solid grey;">
+            <h5> Enjoy this post? Give it a Like? </h5>
+            <p> 
+            {% if request.user.is_authenticated %} 
+                <a  href="{% url 'like' postDetails.id %}">      
+                {% if checkLike %}
+                <i class="bi bi-hand-thumbs-down-fill"></i> unlike    
+                {% else %}
+                <i class="bi bi-hand-thumbs-up-fill"></i> add like
+                {% endif %}
+                </a> 
+            {% else %}
+                <a href="{% url 'login' %} "> login to like </a>
+            {% endif %}
+         
+            </p>
+            <hr style="border: 1px solid grey;">
+            <h5>Leave a comment below</h5>
+            {% if request.user.is_authenticated %} 
+            <form action="" method="post">
+                {% csrf_token %}
+                {{ commentForm.as_p }}
+                <button type="submit" class="btn btn-warning">SEND</button>
+            </form>
+            {% else %}
+            <a href="{% url 'login' %} "> Sign in to post a comment </a>
+            {% endif %}
+            <hr style="border: 1px solid grey;">
+            
+            {% if request.user.id == postDetails.user.id  %}
+                <a href="{% url 'update' postDetails.id %}" class="btn btn-info"> Edit </a>
+                <a href="{% url 'delete' postDetails.id %}" class="btn btn-danger" > Delete </a>
+            {% endif %}
+                
+            <hr style="border: 1px solid grey;">
+            <h5>Comments</h5>
+            <br>
+            {% for comment in listComment %}
+            <div class="card text-white bg-secondary mb-3">
+                <h6 class="text-warning">Comment by {{ comment.user.username }} - <span class="text-light"> {{ comment.timeStamp | timesince }} ago </span> </h6>
+                <p> {{ comment.content }} </p>
+                <hr>
+            </div>
+                
+            {% endfor %}
+                
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock content %}

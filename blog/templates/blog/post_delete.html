@@ -1,0 +1,18 @@
+{% extends 'base.html' %} 
+
+{% block content %}
+<div class="container">
+    <div class="card mx-auto" style="width: 25rem;">
+        <div class="card-body">
+          <h5 class="card-title">Are you sure you want to delete "{{ post.title }}"?</h5>
+          <a href="{% url 'details' post.id %}" class="btn btn-warning">Cancel</a>
+          <form action="{% url 'delete' post.id %}" method="post" style="display: inline-block;">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger" > Delete </button>
+          </form>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+

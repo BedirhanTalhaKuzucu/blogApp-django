@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+    <div class="mt-4 mb-4 p-3 d-flex justify-content-center">
+        <div class="card p-4">
+            <h3>Profile</h3>
+            <hr style="border: 1px solid grey;">
+
+            <div class=" image d-flex flex-column justify-content-center align-items-center">
+                <button class="btn btn-secondary">
+                    <img src="{{ user.profile.image }}" height="100" width="100" />
+                </button>
+                <form action="" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form_user | crispy }}
+                    {{ form_profile | crispy}}
+                    {{ user.profile.image }}
+                    <button type="submit" class="btn btn-outline-primary">Update</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock content %}
