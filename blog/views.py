@@ -53,6 +53,9 @@ def postUpdate(request, id):
     postCategory = Category.objects.get(post=post)
     formPost = NewPostForm(instance=post)
     formCategory = CategoryForm(instance=postCategory)
+    print(post.comment_count())
+    print(post.comments())
+
 
     if request.method == "POST":
         formPost = NewPostForm(request.POST, request.FILES, instance= post)
